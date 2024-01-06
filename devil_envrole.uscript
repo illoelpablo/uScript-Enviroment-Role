@@ -1,0 +1,26 @@
+config = {
+    "PoliICON" : "https://i.imgur.com/DpxO3nT.png" 
+};
+
+isEventOnCD = false;
+event onGunShooted(player, item)
+{
+    if(isEventOnCD){ return; }
+     if (player.nearestLocation == "Comisaria") return;
+     if (player.nearestLocation == "staff") return;
+     if (player.hasGroup("policia")) return;
+        isEventOnCD = true;
+        foreach (loopPlayer in server.players){
+            if (loopPlayer.hasGroup("policia"))
+                {
+                    loopPlayer.effects.sendUI(47010, 2);    
+                    loopPlayer.effects.sendUIText(2, "Title",player.nearestLocation);
+                    loopPlayer.effects.sendUIText(2, "Subtitle","¡DISPAROS DETECTADOS EN ESTA POSICIÓN!");
+                }
+            }
+            wait.seconds(30,removeCDEVENT);
+}
+
+function removeCDEVENT(){
+    isEventOnCD = false;
+}
